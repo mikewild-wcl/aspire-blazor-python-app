@@ -1,0 +1,69 @@
+﻿@page "/"
+@attribute [Authorize]
+@inject PythonApiService PythonApi
+@inject GreetingState State
+@rendermode InteractiveServer
+
+<PageTitle>Hello</PageTitle>
+
+<div class="hello-container">
+    <h1>Say Hello</h1>
+    <p class="subtitle">Enter your name and get a greeting from the Python API.</p>
+
+    <div class="input-row">
+        <input @bind="State.Name"
+               @bind:event="oninput"
+               @onkeydown="HandleKeyDown"
+               placeholder="Your name"
+               class="name-input"
+               disabled="@isLoading" />
+        <button class="btn-primary" @onclick="SendHello" disabled="@(isLoading || string.IsNullOrWhiteSpace(State.Name))">
+            @if (isLoading)
+            {
+                <span class="spinner"></span>
+            }
+            else
+            {
+                <span>Say Hello</span>
+            }
+        </button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(State.Message))
+    {
+        <div class="message-box @(State.IsError ? "error" : "success")">
+            @State.Message
+        </div>
+    }
+</div>
+
+@code {
+    private bool isLoading;
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(State.Name) && !isLoading)
+            await SendHello();
+    }
+
+    private async Task SendHello()
+    {
+        isLoading = true;
+        State.IsError = false;
+        State.Message = string.Empty;
+
+        try
+        {
+            State.Message = await PythonApi.GetGreetingAsync(State.Name) ?? "No response received.";
+        }
+        catch (Exception ex)
+        {
+            State.IsError = true;
+            State.Message = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

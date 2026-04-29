@@ -1,0 +1,17 @@
+[project]
+name = "pyapp"
+version = "0.1.0"
+description = "FastAPI application"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.135.3",
+    "rich>=14.3.4",
+    "uvicorn>=0.44.0",
+    "opentelemetry-sdk>=1.27.0",
+    "opentelemetry-exporter-otlp-proto-grpc>=1.27.0",
+    "opentelemetry-instrumentation-fastapi>=0.48b0",
+    "opentelemetry-instrumentation-httpx>=0.48b0",
+    "azure-monitor-opentelemetry-exporter>=1.0.0b0",
+    "pyjwt[crypto]>=2.9.0",
+]

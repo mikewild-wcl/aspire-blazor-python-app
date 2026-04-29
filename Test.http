@@ -1,0 +1,5 @@
+@base_address = http://localhost:8787/
+
+GET {{base_address}}
+
+###

@@ -1,0 +1,45 @@
+@rendermode InteractiveServer
+@inject IJSRuntime JS
+
+<button class="about-btn" @onclick="ShowAbout">About</button>
+
+@if (showAbout)
+{
+    <div class="modal-backdrop" @onclick="HideAbout" @onkeydown="HandleKey" tabindex="-1" @ref="backdrop">
+        <div class="modal-card" @onclick:stopPropagation>
+            <button class="modal-close" @onclick="HideAbout" aria-label="Close">&#x2715;</button>
+            <h2>About this app</h2>
+            <p>
+                This is a .NET Aspire application that demonstrates calling a <strong>Python FastAPI</strong> backend
+                from a <strong>Blazor</strong> frontend.
+            </p>
+            <p>
+                Enter your name on the home page and the Blazor app will call the Python API, which returns
+                a personalised <em>"Hello, {name}!"</em> greeting.
+            </p>
+            <p>
+                Service discovery is handled automatically by Aspire — no hardcoded ports or URLs are needed,
+                whether running locally or deployed to the cloud.
+            </p>
+        </div>
+    </div>
+}
+
+@code {
+    private bool showAbout;
+    private ElementReference backdrop;
+
+    private async Task ShowAbout()
+    {
+        showAbout = true;
+        await Task.Yield(); // allow the element to render before focusing
+        await JS.InvokeVoidAsync("focusElement", backdrop);
+    }
+
+    private void HideAbout() => showAbout = false;
+
+    private void HandleKey(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape") HideAbout();
+    }
+}

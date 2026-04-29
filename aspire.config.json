@@ -1,0 +1,6 @@
+{
+  "appHost": {
+    "path": "AspirePy.AppHost/AspirePy.AppHost.csproj",
+    "language": "csharp"
+  }
+}
