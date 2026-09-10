@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, Security
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import PlainTextResponse
 from rich import print
 
 from auth import load_jwks, validate_token
@@ -47,6 +48,10 @@ def read_root():
     logger.info("Root endpoint called")
     return {"message": "Hello from Python + uv + VS Code!"}
 
+@app.get("/health", response_class=PlainTextResponse)
+async def health_check():
+    """Health check endpoint."""
+    return "Healthy"
 
 @app.get("/hello/{name}")
 def hello(name: str, request: Request, user: dict = Security(validate_token)):

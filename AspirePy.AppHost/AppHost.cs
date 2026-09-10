@@ -13,9 +13,11 @@ var python = builder.AddUvicornApp(
         name: "python-app",
         appDirectory: "../pyapp",
         app: "main:app")
-    .WithUv()
+    .WithVirtualEnvironment(".venv", createIfNotExists: true)
+    .WithUv(args: ["sync", "--allow-insecure-host", "pypi.org", "--allow-insecure-host", "files.pythonhosted.org"])
     .WithEnvironment("ENTRA_TENANT_ID", entraTenantId)
-    .WithEnvironment("ENTRA_CLIENT_ID", entraApiClientId);
+    .WithEnvironment("ENTRA_CLIENT_ID", entraApiClientId)
+    .WithHttpHealthCheck(path: "/health");
 
 if (!builder.ExecutionContext.IsPublishMode)
 {
