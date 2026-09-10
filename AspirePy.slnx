@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/docs/">
+    <File Path="docs/adding react.md" />
     <File Path="docs/architecture-review.md" />
     <File Path="docs/article.md" />
     <File Path="docs/azure-deployment.md" />
