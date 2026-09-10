@@ -12,7 +12,7 @@
     <File Path="README.md" />
     <File Path="Test.http" />
   </Folder>
-  <Project Path="AspirePy.AppHost/AspirePy.AppHost.csproj" />
-  <Project Path="AspirePy.ServiceDefaults/AspirePy.ServiceDefaults.csproj" />
-  <Project Path="AspirePy.Web/AspirePy.Web.csproj" />
+  <Project Path="src/AspirePy.AppHost/AspirePy.AppHost.csproj" />
+  <Project Path="src/AspirePy.ServiceDefaults/AspirePy.ServiceDefaults.csproj" />
+  <Project Path="src/AspirePy.Web/AspirePy.Web.csproj" />
 </Solution>
