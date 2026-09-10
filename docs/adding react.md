@@ -7,6 +7,20 @@ cd to the solution `src` directory and run the following command to create a new
 npm create vite@latest frontend-react -- --template react-ts
 ```
 
+Select `ESLint` as the linter when prompted, then select "Yes" to install. This will create a new React app in the `frontend-react` directory.
+
+Add the following package to the AppHost project:
+```
+Aspire.Hosting.JavaScript
+```
+
+Add the following code to `AppHost.cs` to serve the React app:
+```csharp
+builder.AddViteApp("frontend-react", "../frontend-react")
+    .WithNpm()
+    .WithReference(python)
+    .WaitFor(python);
+```
 
 ## References
 

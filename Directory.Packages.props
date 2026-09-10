@@ -4,6 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Aspire -->
+    <PackageVersion Include="Aspire.Hosting.JavaScript" Version="13.5.3" />
     <PackageVersion Include="Aspire.Hosting.Python" Version="13.5.3" />
     <PackageVersion Include="Aspire.Hosting.Azure.ApplicationInsights" Version="13.5.3" />
     <PackageVersion Include="Aspire.Hosting.Azure.AppContainers" Version="13.5.3" />

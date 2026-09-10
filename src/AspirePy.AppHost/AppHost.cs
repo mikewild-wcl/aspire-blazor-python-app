@@ -1,3 +1,5 @@
+using Google.Protobuf.WellKnownTypes;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 builder.AddAzureContainerAppEnvironment("env");
@@ -26,11 +28,17 @@ if (!builder.ExecutionContext.IsPublishMode)
 
 var web = builder.AddProject<Projects.AspirePy_Web>("web")
     .WithReference(python)
+    .WaitFor(python)
     .WithExternalHttpEndpoints()
     .WithEnvironment("AzureAd__TenantId", entraTenantId)
     .WithEnvironment("AzureAd__ClientId", entraClientId)
     .WithEnvironment("AzureAd__ClientSecret", entraClientSecret)
     .WithEnvironment("PythonApi__ClientId", entraApiClientId);
+
+builder.AddViteApp("frontend-react", "../frontend-react")
+    .WithNpm()
+    .WithReference(python)
+    .WaitFor(python);
 
 if (builder.ExecutionContext.IsPublishMode)
 {
