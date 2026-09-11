@@ -245,6 +245,31 @@ Common `<PropertyGroup>` properties (`TargetFramework`, `Nullable`, `ImplicitUsi
 ### gRPC
  - [Use gRPC with FastAPI](https://mojoauth.com/grpc/use-grpc-with-fastapi)
 
+## React frontend API base URL (known limitation for containerized publish)
+
+The React app (`AspirePy.AppHost/AppHost.cs`) resolves the Python API's URL via:
+
+```csharp
+builder.AddViteApp("frontend-react", "../frontend-react")
+    .WithNpm()
+    .WithReference(python)
+    .WithEnvironment("VITE_API_BASE_URL", python.GetEndpoint("http"))
+    .WaitFor(python);
+```
+
+`ApiHealth.tsx` reads `import.meta.env.VITE_API_BASE_URL` and calls `${VITE_API_BASE_URL}/health`. This works for local dev (`aspire run`) because Vite's dev server reads `process.env` live on each start.
+
+**This will not work for a containerized production build.** Vite bakes `VITE_*` variables into the static bundle at `vite build` time, but the real Python app URL (an internal Container Apps FQDN) is only known at deploy/runtime — it doesn't exist yet when the Docker image is built.
+
+### Fix to implement before containerized publish
+
+Switch to a runtime-config-fetch pattern instead of a build-time env var:
+1. Pass the Python API URL to the frontend container as a normal (non-`VITE_`) runtime env var.
+2. Have the container's startup (an entrypoint script, or whatever serves the static build — nginx, a tiny Node static server) write it into a `config.json` or inject a `window.__CONFIG__` script tag at container start.
+3. Have `ApiHealth.tsx` fetch that config on mount instead of reading `import.meta.env.VITE_API_BASE_URL` directly.
+
+Revisit this once `frontend-react` gets a real publish/container path in the AppHost (currently only `AddViteApp` + `WithNpm`, no Dockerfile/container publish wired up yet).
+
 ## Architecture - Recommendations
 
 An architecture review (June 2026) assessed whether the deployment needs additional Azure services such as Front Door or improved private networking. The full plan, including verified AppHost code snippets, is in [docs/architecture-review.md](docs/architecture-review.md).

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ApiHealth from './components/ApiHealth'
 import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
@@ -31,6 +32,10 @@ function App() {
       </section>
 
       <div className="ticks"></div>
+
+      <section id="api-health">
+        <ApiHealth />
+      </section>
 
       <section id="next-steps">
         <div id="docs">

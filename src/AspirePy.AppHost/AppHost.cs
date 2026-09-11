@@ -38,6 +38,7 @@ var web = builder.AddProject<Projects.AspirePy_Web>("web")
 builder.AddViteApp("frontend-react", "../frontend-react")
     .WithNpm()
     .WithReference(python)
+    .WithEnvironment("VITE_API_BASE_URL", python.GetEndpoint("http"))
     .WaitFor(python);
 
 if (builder.ExecutionContext.IsPublishMode)

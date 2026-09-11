@@ -56,6 +56,96 @@
   }
 }
 
+#api-health {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  place-content: center;
+  place-items: center;
+  flex-grow: 1;
+
+  @media (max-width: 348px) {
+    padding: 32px 20px 24px;
+    gap: 18px;
+  }
+}
+
+.api-health-card {
+  width: min(620px, calc(100% - 40px));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  box-sizing: border-box;
+  background: color-mix(in oklab, var(--bg) 95%, var(--accent) 5%);
+  box-shadow: var(--shadow);
+
+  h2 {
+    margin-bottom: 12px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  p + p {
+    margin-top: 10px;
+  }
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    padding: 20px;
+  }
+}
+
+.api-health-status {
+  font-family: var(--mono);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--text-h);
+  border-radius: 999px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  padding: 6px 10px;
+
+  &::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+}
+
+.api-health-status.is-checking {
+  border-color: var(--border);
+  background: var(--social-bg);
+
+  &::before {
+    background: color-mix(in oklab, var(--text) 65%, var(--bg) 35%);
+  }
+}
+
+.api-health-status.is-healthy {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+
+  &::before {
+    background: var(--accent);
+  }
+}
+
+.api-health-status.is-unhealthy {
+  border-color: color-mix(in oklab, #d33b3b 55%, var(--border) 45%);
+  background: color-mix(in oklab, #d33b3b 15%, var(--bg) 85%);
+
+  &::before {
+    background: #d33b3b;
+  }
+}
+
 #center {
   display: flex;
   flex-direction: column;
