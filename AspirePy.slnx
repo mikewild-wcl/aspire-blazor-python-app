@@ -4,6 +4,7 @@
     <File Path="docs/architecture-review.md" />
     <File Path="docs/article.md" />
     <File Path="docs/azure-deployment.md" />
+    <File Path="docs/react-entra-authentication.md" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />

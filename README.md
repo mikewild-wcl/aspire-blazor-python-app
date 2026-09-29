@@ -50,15 +50,20 @@ The Blazor frontend authenticates users via OpenID Connect (OIDC) against Micros
 5. **API permissions** → **Add a permission** → **My APIs** → `aspire-py-api` → Delegated → `access_as_user` → Add
 6. **Grant admin consent** for your tenant
 
+**React SPA registration** (optional, if you want to use the React frontend):
+1. **New registration**, name: `aspire-py-web-spa`, account type: *Accounts in this organizational directory only*
+    - see the separate SPA registration documentation
+     
 ### Local development setup
 
-Store the four values as Aspire parameters in the AppHost user secrets (run once from the `AspirePy.AppHost/` directory):
+Store the values as Aspire parameters in the AppHost user secrets (run once from the `AspirePy.AppHost/` directory):
 
 ```powershell
 dotnet user-secrets set "Parameters:entra-tenant-id"     "<Directory (tenant) ID>"
 dotnet user-secrets set "Parameters:entra-client-id"     "<aspire-py-web Application ID>"
 dotnet user-secrets set "Parameters:entra-client-secret" "<aspire-py-web secret value>"
 dotnet user-secrets set "Parameters:entra-api-client-id" "<aspire-py-api Application ID>"
+dotnet user-secrets set "Parameters:entra-spa-client-id" "<aspire-py-react SPA Application ID>"
 ```
 
 Aspire injects these as environment variables at startup — no changes to `appsettings.json` are needed.
