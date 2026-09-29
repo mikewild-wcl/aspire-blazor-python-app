@@ -1,7 +1,9 @@
 ﻿@page "/"
 @attribute [Authorize]
 @inject PythonApiService PythonApi
+@using Microsoft.Identity.Web
 @inject GreetingState State
+@inject NavigationManager Navigation
 @rendermode InteractiveServer
 
 <PageTitle>Hello</PageTitle>
@@ -55,6 +57,14 @@
         try
         {
             State.Message = await PythonApi.GetGreetingAsync(State.Name) ?? "No response received.";
+        }
+        catch (MicrosoftIdentityWebChallengeUserException)
+        {
+            // The sign-in cookie is still valid but MSAL has no token for the API, typically because
+            // the in-memory token cache was lost when the app restarted. Sign in again; Entra's own
+            // session usually makes this a quick redirect with no prompt.
+            var returnUrl = "/" + Navigation.ToBaseRelativePath(Navigation.Uri);
+            Navigation.NavigateTo($"/login?returnUrl={Uri.EscapeDataString(returnUrl)}", forceLoad: true);
         }
         catch (Exception ex)
         {

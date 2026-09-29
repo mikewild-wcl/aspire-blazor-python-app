@@ -70,7 +70,7 @@ Aspire injects these as environment variables at startup — no changes to `apps
 
 ### How it works
 
-- **Blazor** authenticates users via OIDC and stores the session in a cookie. When calling the Python API, `PythonApiService` acquires a Bearer token scoped to `api://{api-client-id}/access_as_user` via `ITokenAcquisition`.
+- **Blazor** authenticates users via OIDC and stores the session in a cookie. When calling the Python API, `PythonApiService` acquires a Bearer token scoped to `api://{api-client-id}/access_as_user` via `ITokenAcquisition`. Tokens are cached in memory, so they're lost when the app restarts; see [Blazor: "No account or login hint" after a restart](docs/blazor-token-cache.md).
 - **Python FastAPI** validates the Bearer token on the `/hello/{name}` endpoint using Entra's JWKS endpoint (`PyJWT`). It checks the token signature, issuer, and audience.
 - **Deployed secrets**: when running `azd up`, Aspire prompts for the four values and stores them securely in Azure Container Apps secrets — no extra configuration needed.
 

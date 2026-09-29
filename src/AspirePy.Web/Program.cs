@@ -17,6 +17,14 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
 
+// The in-memory token cache is lost when the app restarts but the sign-in cookie isn't, so
+// re-authenticate on the next request rather than failing on the first call to the Python API.
+builder.Services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+{
+    options.Events = new RejectSessionCookieWhenAccountNotInCacheEvents(
+        [$"api://{builder.Configuration["PythonApi:ClientId"]}/access_as_user"]);
+});
+
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
 
